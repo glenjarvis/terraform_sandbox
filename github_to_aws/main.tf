@@ -6,10 +6,14 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.0"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
   }
   backend "s3" {
     bucket         = "com-glenjarvis-demo-terraform-state"
-    key            = "dev/oidc/terraform.tfstate"
+    key            = "global/github_oidc/terraform.tfstate"
     region         = "us-west-2"
     dynamodb_table = "terraform-lock"
     encrypt        = true

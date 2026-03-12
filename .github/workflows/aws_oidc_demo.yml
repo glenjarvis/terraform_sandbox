@@ -1,0 +1,50 @@
+name: AWS OIDC Demo
+
+# Triggers on every push to main, or manually via the GitHub Actions UI.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Needed to mint JWT for AWS (OIDC protocol)
+permissions:
+  id-token: write   # allows GitHub to mint an OIDC JWT for this run
+  contents: read    # allows checkout (standard minimum)
+
+jobs:
+  verify-aws-identity:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # This action does the full OIDC exchange on your behalf:
+      #   1. Requests the JWT from GitHub (using the id-token permission above)
+      #   2. Calls AWS STS AssumeRoleWithWebIdentity with that JWT
+      #   3. Exports AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN
+      #      into the environment for all subsequent steps
+      #
+      # TODO: Replace the role-to-assume value with the ARN output from
+      #       terraform/outputs.tf after running terraform apply (Part D).
+      #
+      # The sub claim GitHub will send for this repo on main will be:
+      #   repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main
+      # That string must match the condition in the IAM trust policy (Part D).
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/github-oidc-demo-role
+          aws-region: us-west-2
+
+
+      # TODO: Don't let me forget to put the above AWS Account in a secret:
+      # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-oidc-demo-role
+
+
+      # This call asks AWS "who am I right now?"
+      # If OIDC worked correctly, the response will show the assumed role ARN,
+      # NOT a user ARN. That is your proof that the mechanism works.
+      - name: Verify assumed identity
+        run: aws sts get-caller-identity
