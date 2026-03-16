@@ -25,19 +25,18 @@ data "aws_ami" "debian" {
 }
 
 module "vpc" {
-  source      = "../modules/vpcs"
+  source      = "../../modules/vpcs"
   project     = local.project
   environment = local.environment
 }
 
 module "security_group" {
-  source                  = "../modules/security"
+  source                  = "../../modules/security"
   project                 = local.project
   environment             = local.environment
   vpc_id                  = module.vpc.vpc_id
   allowed_ssh_cidr_blocks = ["127.0.0.1/32"]
 }
-
 
 resource "aws_iam_role" "instance_assume_role" {
   name_prefix        = local.project
