@@ -26,12 +26,14 @@ data "aws_ami" "debian" {
 
 module "vpc" {
   source      = "../../modules/vpcs"
+
   project     = local.project
   environment = local.environment
 }
 
 module "security_group" {
   source                  = "../../modules/security"
+
   project                 = local.project
   environment             = local.environment
   vpc_id                  = module.vpc.vpc_id

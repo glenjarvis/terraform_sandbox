@@ -8,7 +8,7 @@ terraform {
   }
 }
 
-resource "aws_db_instance" "aws-rds-instance" {
+resource "aws_db_instance" "aws_rds_instance" {
   identifier_prefix   = "${var.project}-db"
   allocated_storage   = 10
   instance_class      = "db.t3.micro"

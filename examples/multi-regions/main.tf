@@ -11,12 +11,12 @@ terraform {
 
 provider "aws" {
   region = "us-east-1"
-  alias  = "aws-east-region"
+  alias  = "aws_east_region"
 }
 
 provider "aws" {
   region = "us-west-2"
-  alias  = "aws-west-region"
+  alias  = "aws_west_region"
 }
 
 locals {
@@ -24,16 +24,16 @@ locals {
   ubuntu_image_filter = "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-arm64-server*"
 }
 
-data "aws_region" "aws-east-region" {
-  provider = aws.aws-east-region
+data "aws_region" "aws_east_region" {
+  provider = aws.aws_east_region
 }
 
-data "aws_region" "aws-west-region" {
-  provider = aws.aws-west-region
+data "aws_region" "aws_west_region" {
+  provider = aws.aws_west_region
 }
 
-data "aws_ami" "aws-east-canonical-ami" {
-  provider = aws.aws-east-region
+data "aws_ami" "aws_east_canonical_ami" {
+  provider = aws.aws_east_region
 
   most_recent = true
   owners = [local.canonical_id]
@@ -44,8 +44,8 @@ data "aws_ami" "aws-east-canonical-ami" {
   }
 }
 
-data "aws_ami" "aws-west-canonical-ami" {
-  provider = aws.aws-west-region
+data "aws_ami" "aws_west_canonical_ami" {
+  provider = aws.aws_west_region
 
   most_recent = true
   owners = [local.canonical_id]
@@ -56,22 +56,22 @@ data "aws_ami" "aws-west-canonical-ami" {
   }
 }
 
-output "aws-east-region" {
+output "aws_east_region" {
   description = "Name of the East Coast Region"
-  value       = data.aws_region.aws-east-region.region
+  value       = data.aws_region.aws_east_region.region
 }
 
-output "aws-east-ami" {
+output "aws_east_ami" {
   description = "Name of the East Coast Canonical AMI"
-  value       = data.aws_ami.aws-east-canonical-ami.id
+  value       = data.aws_ami.aws_east_canonical_ami.id
 }
 
-output "aws-west-region" {
+output "aws_west_region" {
   description = "Name of the West Coast Region"
-  value       = data.aws_region.aws-west-region.region
+  value       = data.aws_region.aws_west_region.region
 }
 
-output "aws-west-ami" {
+output "aws_west_ami" {
   description = "Name of the West Coast Canonical AMI"
-  value       = data.aws_ami.aws-west-canonical-ami.id
+  value       = data.aws_ami.aws_west_canonical_ami.id
 }
