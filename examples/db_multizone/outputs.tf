@@ -1,29 +1,29 @@
 output "primary_address" {
   description = "Connect to the primary database at this endpoint"
-  value       = module.primary-db.address
+  value       = module.primary_db.address
 }
 
 output "primary_port" {
   description = "The port th eprimary database is listening on"
-  value       = module.primary-db.port
+  value       = module.primary_db.port
 }
 
 output "primary_arn" {
   description = "The ARN of the primary database"
-  value       = module.primary-db.arn
+  value       = module.primary_db.arn
 }
 
 output "replica_address" {
   description = "Connect to the replica database at this endpoint"
-  value       = module.replica-db.address
+  value       = module.replica_db.address
 }
 
 output "replica_port" {
   description = "The port the replica database is listening on"
-  value       = module.replica-db.port
+  value       = module.replica_db.port
 }
 
 output "replica_arn" {
   description = "The ARN of the replica database"
-  value       = module.replica-db.arn
+  value       = module.replica_db.arn
 }

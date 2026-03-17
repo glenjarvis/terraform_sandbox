@@ -1,6 +1,6 @@
 
-module "primary-db" {
-  source = "../../modules/data-stores/mysql"
+module "primary_db" {
+  source = "../../modules/data_stores/mysql"
   providers = {
     aws = aws.primary
   }
@@ -12,14 +12,14 @@ module "primary-db" {
   backup_retention_period = 1
 }
 
-module "replica-db" {
-  source = "../../modules/data-stores/mysql"
+module "replica_db" {
+  source = "../../modules/data_stores/mysql"
   providers = {
     aws = aws.replica
   }
 
   project = "multizone-example"
   # Make this a replica of the primary:
-  replicate_source_db = module.primary-db.arn
+  replicate_source_db = module.primary_db.arn
 }
 
