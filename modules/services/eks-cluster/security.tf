@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "cluster_assume_role" {
   }
 }
 
-# IAM role permissoins
+# IAM role permissions
 resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.cluster.name
@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "node_assume_role" {
   }
 }
 
-# Attach permissoins/policies to the node_group role
+# Attach permissions/policies to the node_group role
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.node_group.name
