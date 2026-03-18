@@ -12,11 +12,11 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "com-glenjarvis-demo-terraform-state"
-    key            = "global/sandbox_ec2_policy/terraform.tfstate"
-    region         = "us-west-2"
-    dynamodb_table = "terraform-lock"
-    encrypt        = true
+    bucket       = "com-glenjarvis-demo-terraform-state"
+    key          = "global/sandbox_ec2_policy/terraform.tfstate"
+    region       = "us-west-2"
+    encrypt      = true
+    use_lockfile = true
   }
 }
 
