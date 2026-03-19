@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "github_actions_trust" {
     #
     # The value must exactly match what GitHub puts in the `sub` claim.
     # For a push to main in this repo, GitHub will send:
-    #   repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main
+    #   repo:glenjarvis/terraform_sandbox:ref:refs/heads/main
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
