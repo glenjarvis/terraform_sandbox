@@ -1,10 +1,7 @@
 name: AWS OIDC Demo
 
-# Triggers on every push to main, or manually via the GitHub Actions UI.
+# Triggered manually
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 # Needed to mint JWT for AWS (OIDC protocol)
@@ -26,22 +23,17 @@ jobs:
       #   3. Exports AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN
       #      into the environment for all subsequent steps
       #
-      # TODO: Replace the role-to-assume value with the ARN output from
-      #       terraform/outputs.tf after running terraform apply (Part D).
-      #
       # The sub claim GitHub will send for this repo on main will be:
-      #   repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main
-      # That string must match the condition in the IAM trust policy (Part D).
+      #   repo:glenjarvis/terraform_sandbox:ref:refs/heads/main
+      # That string must match the condition in the IAM trust policy.
+      #
+      # Required: secret AWS_ACCOUNT_ID and variable AWS_REGION must be set in this repo.
+      # See .github/workflows/README.md for setup instructions.
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::123456789012:role/github-oidc-demo-role
-          aws-region: us-west-2
-
-
-      # TODO: Don't let me forget to put the above AWS Account in a secret:
-      # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-oidc-demo-role
-
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-oidc-demo-role
+          aws-region: ${{ vars.AWS_REGION }}
 
       # This call asks AWS "who am I right now?"
       # If OIDC worked correctly, the response will show the assumed role ARN,
