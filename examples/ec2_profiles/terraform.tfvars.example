@@ -1,0 +1,10 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is ignored by git and will not be committed.
+
+# Your public IP address — run: curl ifconfig.me
+# Restricts SSH access to your machine only.
+allowed_ssh_cidr_blocks = ["YOUR.IP.HERE/32"]
+
+# Previously created ssh_key_name.
+# Use this if you don't want to use default ("terraform_sandbox.pem")
+# ssh_key_name = "terraform_sandbox"

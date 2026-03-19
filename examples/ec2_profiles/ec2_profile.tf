@@ -25,19 +25,19 @@ data "aws_ami" "debian" {
 }
 
 module "vpc" {
-  source      = "../../modules/vpcs"
+  source = "../../modules/vpcs"
 
   project     = local.project
   environment = local.environment
 }
 
 module "security_group" {
-  source                  = "../../modules/security"
+  source = "../../modules/security"
 
   project                 = local.project
   environment             = local.environment
   vpc_id                  = module.vpc.vpc_id
-  allowed_ssh_cidr_blocks = ["127.0.0.1/32"]
+  allowed_ssh_cidr_blocks = var.allowed_ssh_cidr_blocks
 }
 
 resource "aws_iam_role" "instance_assume_role" {
@@ -57,16 +57,25 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-resource "aws_iam_role_policy" "name" {
+resource "aws_iam_role_policy" "control_ec2" {
   role   = aws_iam_role.instance_assume_role.name
   policy = data.aws_iam_policy_document.control_ec2.json
 }
 
+# Note: This is WAY TOO broad for a production situation.
+# a. Make specific actions (e.g, "ec2:StartInstances")
+# b. Add a tagged condition (e.g., See commented section)
 data "aws_iam_policy_document" "control_ec2" {
   statement {
     effect    = "Allow"
     actions   = ["ec2:*"]
     resources = ["*"]
+
+    # condition {
+    #   test     = "StringEquals"
+    #   variable = "aws:ResourceTag/Project"
+    #   values   = [local.project]
+    # }
   }
 }
 
@@ -79,21 +88,11 @@ resource "aws_instance" "sandbox_instance" {
   instance_type          = "t3.micro"
   subnet_id              = module.vpc.subnet_ids[0]
   vpc_security_group_ids = [module.security_group.security_group_id]
-  key_name               = "terraform-training-aws-20260306"
+  key_name               = var.ssh_key_name
 
   iam_instance_profile = aws_iam_instance_profile.control_ec2.name
-}
 
-output "role_name" {
-  description = "Name of the auto-generated role"
-  value       = aws_iam_role.instance_assume_role.name
-}
-output "ssh_command" {
-  description = "Short cut command to quickly ssh to sandbox EC2 instance"
-  value       = "ssh -i ~/.ssh/terraform-training-aws-20260306.pem admin@${aws_instance.sandbox_instance.public_ip}"
-}
-
-output "demo_creds" {
-  description = "Commnd to pull temporary credentials"
-  value       = "curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${aws_iam_role.instance_assume_role.name}"
+  tags = {
+    Project = local.project
+  }
 }
