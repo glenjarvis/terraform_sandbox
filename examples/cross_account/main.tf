@@ -13,12 +13,17 @@ provider "aws" {
   alias  = "management_account"
 }
 
+variable "org_member_account_id" {
+  description = "AWS account ID of the member account to assume into via OrganizationAccountAccessRole"
+  type        = string
+}
+
 provider "aws" {
   region = "us-east-2"
-  alias  = "glenjarvis_com_website"
+  alias  = "other_account"
 
   assume_role {
-    role_arn = "arn:aws:iam::460862207797:role/OrganizationAccountAccessRole"
+    role_arn = "arn:aws:iam::${var.org_member_account_id}:role/OrganizationAccountAccessRole"
   }
 }
 
@@ -26,6 +31,6 @@ data "aws_caller_identity" "account_management" {
   provider = aws.management_account
 }
 
-data "aws_caller_identity" "account_website_glenjarvis_com" {
-  provider = aws.glenjarvis_com_website
+data "aws_caller_identity" "account_other" {
+  provider = aws.other_account
 }
