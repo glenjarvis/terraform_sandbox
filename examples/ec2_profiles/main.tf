@@ -11,6 +11,7 @@ terraform {
       version = "~> 4.0"
     }
   }
+  # Replace bucket with your own — see bootstrap/README.md for setup instructions.
   backend "s3" {
     bucket       = "com-glenjarvis-demo-terraform-state"
     key          = "global/sandbox_ec2_policy/terraform.tfstate"
