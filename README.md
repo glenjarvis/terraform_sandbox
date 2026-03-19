@@ -14,11 +14,10 @@ Not intended for production use.
 - [`cross_account/`](examples/cross_account/)      — Assume a role in another AWS account without separate credentials
 - [`db_multizone/`](examples/db_multizone/)        — MySQL RDS with cross-region read replica
 - [`ec2_profiles/`](examples/ec2_profiles/)        — EC2 with IAM instance profile *(uses remote state)*
-- [`github_to_aws/`](examples/github_to_aws/)      — IAM role + OIDC provider for GitHub Actions authentication
+- [`github_to_aws/`](examples/github_to_aws/)      — GitHub Actions → AWS authentication via OIDC (no stored credentials)
 - [`k8s_cheddar/`](examples/k8s_cheddar/)          — Kubernetes deployment (cheese-themed image)
 - [`k8s_eks_wensleydale/`](examples/k8s_eks_wensleydale/) — EKS cluster with Kubernetes deployment (multiple-provider; cheese-themed image)
 - [`multi_regions/`](examples/multi_regions/)      — Multi-region provider configuration
-- [`oidc/`](examples/oidc/)                        — GitHub OIDC provider setup for AWS authentication
 
 ## Modules
 

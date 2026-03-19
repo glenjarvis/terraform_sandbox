@@ -18,10 +18,10 @@ credentials required. Triggered manually, it assumes an IAM role and calls
 #### 1. Terraform: Create the IAM role
 
 The IAM role and OIDC provider are created by the Terraform configuration in
-`examples/oidc/`. Run that first:
+`examples/github_to_aws/`. Run that first:
 
 ```bash
-cd examples/oidc
+cd examples/github_to_aws
 terraform init
 terraform apply
 ```

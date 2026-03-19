@@ -54,7 +54,7 @@ The payload is a JSON object called **claims**. For a GitHub Actions JWT it look
 {
   "iss": "https://token.actions.githubusercontent.com",
   "aud": "sts.amazonaws.com",
-  "sub": "repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main",
+  "sub": "repo:glenjarvis/terraform_sandbox:ref:refs/heads/main",
   "exp": 1710000000
 }
 ```
@@ -343,7 +343,7 @@ data "aws_iam_policy_document" "github_actions_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main"]
+      values   = ["repo:glenjarvis/terraform_sandbox:ref:refs/heads/main"]
     }
   }
 }
@@ -499,7 +499,7 @@ Workflow run time:
                → fetches GitHub's public key from JWKS (verifying TLS thumbprint)
                → verifies JWT signature locally
                → checks aud == "sts.amazonaws.com"
-               → checks sub == "repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main"
+               → checks sub == "repo:glenjarvis/terraform_sandbox:ref:refs/heads/main"
                → issues temporary credentials (AccessKeyId + SecretAccessKey + SessionToken)
 
   GitHub runner → exports credentials as env vars
@@ -537,10 +537,10 @@ Other options:
 
 ```hcl
 # Exact — only main branch
-"StringEquals": { "...sub": "repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main" }
+"StringEquals": { "...sub": "repo:glenjarvis/terraform_sandbox:ref:refs/heads/main" }
 
 # Wildcard — any branch in this repo (use carefully)
-"StringLike": { "...sub": "repo:glenjarvis/oidc_github_aws_sandbox:*" }
+"StringLike": { "...sub": "repo:glenjarvis/terraform_sandbox:*" }
 ```
 
 Scoping options:

@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "github_actions_trust" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:glenjarvis/oidc_github_aws_sandbox:ref:refs/heads/main"]
+      values   = ["repo:glenjarvis/terraform_sandbox:ref:refs/heads/main"]
     }
   }
 }
