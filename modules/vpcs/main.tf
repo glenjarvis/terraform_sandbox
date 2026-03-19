@@ -24,7 +24,7 @@ resource "aws_vpc" "public" {
   cidr_block = var.cidr_block
 
   tags = merge(var.tags, {
-    Name        = "${var.project}s-${var.environment}-vpc"
+    Name        = "${var.project}-${var.environment}-vpc"
     Project     = var.project
     Environment = var.environment
   })

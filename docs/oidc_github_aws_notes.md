@@ -403,7 +403,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "com-glenjarvis-demo-terraform-state"
+    bucket         = "<your-terraform-state-bucket>"
     key            = "global/github_oidc/terraform.tfstate"
     region         = "us-west-2"
     dynamodb_table = "terraform-lock"

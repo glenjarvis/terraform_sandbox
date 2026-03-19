@@ -4,7 +4,7 @@ output "primary_address" {
 }
 
 output "primary_port" {
-  description = "The port th eprimary database is listening on"
+  description = "The port the primary database is listening on"
   value       = module.primary_db.port
 }
 

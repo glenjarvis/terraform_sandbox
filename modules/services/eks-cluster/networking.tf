@@ -1,8 +1,5 @@
-# NOTE!!! This is a sandbox for testing ideas
-#
-# A better VPC should be used when exploring for realz
-
-# TODO: Make a better sandbox example with a private VPC and a bastion host
+# Note: This module uses the default VPC for simplicity. A production EKS
+# cluster should use a dedicated VPC with proper CIDR planning and subnet tagging.
 data "aws_vpc" "default" {
   default = true
 }
