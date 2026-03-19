@@ -9,6 +9,6 @@ output "ssh_command" {
 }
 
 output "demo_creds" {
-  description = "Commnd to pull temporary credentials"
+  description = "Command to pull temporary credentials"
   value       = "curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${aws_iam_role.instance_assume_role.name}"
 }

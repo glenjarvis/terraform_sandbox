@@ -49,7 +49,7 @@ Note the `role_arn` output — you'll need it in the next step.
 #### 3. Trust policy
 
 The IAM trust policy must allow the `sub` claim for this specific repository. The Terraform
-in `examples/oidc/` sets this automatically, but if you fork this repo the trust policy must
+in `examples/github_to_aws/` sets this automatically, but if you fork this repo the trust policy must
 be updated to match your repository name:
 
 ```

@@ -1,4 +1,4 @@
-# This is a sandbox/scratch deloyment ONLY.  This is not for production:
+# This is a sandbox/scratch deployment ONLY.  This is not for production:
 
 # https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs
 #
