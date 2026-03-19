@@ -1,12 +1,22 @@
-# Local Terraform state
+# Terraform
+## Local Terraform state
 .terraform/
 *.tfstate
 *.tfstate.backup
 
-# Sensitive variable files
+## Sensitive variable files
 *.tfvars
 *.tfvars.json
+
+## Terraform override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
 # Crash logs
 crash.log
 crash.*.log
+
+# macOS
+.DS_Store
