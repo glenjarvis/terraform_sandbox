@@ -30,9 +30,13 @@ terraform apply
 ### 2. Populate the plain string secret
 
 ```bash
+read -e -p "Enter API key: " API_KEY_SECRET
+
 aws secretsmanager put-secret-value \
   --secret-id demo/app/api_key \
-  --secret-string "your-actual-api-key"
+  --secret-string "$API_KEY_SECRET"
+
+unset API_KEY_SECRET
 ```
 
 ### 3. Populate the JSON blob secret
