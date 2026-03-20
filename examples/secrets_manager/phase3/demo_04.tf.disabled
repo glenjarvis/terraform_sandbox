@@ -1,0 +1,34 @@
+# WARNING:
+
+# ** This terraform apply will intentionally fail**
+
+# 1. Rename this file to demo_04.tf so that it is an active terraform file
+# 2. Run terraform apply
+# 3. Notice that this will fail:
+#   - Ephemeral values are not valid for "db_name", because it is not a
+#     write-only attribute and must be persisted to state.
+#   - Ephemeral values are not valid for "username", because it is not a
+#     write-only attribute and must be persisted to state.
+#   - Ephemeral values are not valid for "password", because it is not a
+#     write-only attribute and must be persisted to state.
+
+# EPHEMERAL WILL ONLY WORK ON _wo fields
+
+ephemeral "aws_secretsmanager_secret_version" "db_credentials" {
+  secret_id = data.aws_secretsmanager_secret.db_credentials.arn
+}
+
+locals {
+  db = jsondecode(ephemeral.aws_secretsmanager_secret_version.db_credentials.secret_string)
+}
+
+resource "aws_db_instance" "mysql" {
+  engine              = "mysql"
+  engine_version      = "8.0"
+  instance_class      = "db.t3.micro"
+  allocated_storage   = 20
+  db_name             = local.db["db_name"]  # <== THIS FAILS
+  username            = local.db["username"] # <== THIS FAILS
+  password            = local.db["password"] # <== THIS FAILS
+  skip_final_snapshot = true
+}

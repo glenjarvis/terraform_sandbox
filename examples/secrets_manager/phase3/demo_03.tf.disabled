@@ -1,0 +1,15 @@
+# 1. Rename this file to demo_03.tf so that it is an active terraform file
+# 2. Run terraform apply
+# 3. There is no output
+# 4. Now, examine state: `terraform state pull | jq . | less`
+#    **No secrets stored in state**
+
+ephemeral "aws_secretsmanager_secret_version" "db_credentials" {
+  # resource is ephemeral — it exists in memory during apply only
+  secret_id = data.aws_secretsmanager_secret.db_credentials.arn
+}
+
+locals {
+  # tflint-ignore: terraform_unused_declarations
+  db = jsondecode(ephemeral.aws_secretsmanager_secret_version.db_credentials.secret_string)
+}

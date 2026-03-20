@@ -1,0 +1,31 @@
+
+# This pattern avoids the issues that I wanted to flesh out
+# in this sandbox since the password is being managed by AWS
+# completely.
+
+# I have it here for completeness
+
+variable "db_name" {
+  description = "database name (will *always* be stored in state; unavoidable as there is no _wo)"
+  type        = string
+  default     = "demo"
+  sensitive   = true # Will still be stored in state
+}
+
+variable "username" {
+  description = "username (will *always* be stored in state; unavoidable as there is no _wo)"
+  type        = string
+  default     = "myuser"
+  sensitive   = true # Will still be stored in state
+}
+
+resource "aws_db_instance" "mysql" {
+  engine                      = "mysql"
+  engine_version              = "8.0"
+  instance_class              = "db.t3.micro"
+  allocated_storage           = 20
+  db_name                     = var.db_name
+  username                    = var.username
+  skip_final_snapshot         = true
+  manage_master_user_password = true # RDS creates and rotates the secret itself
+}

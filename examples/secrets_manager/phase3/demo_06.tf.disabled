@@ -1,0 +1,49 @@
+
+
+# 1. Rename this file to demo_06.tf so that it is an active terraform file
+# 2. Run terraform apply
+# 3. Now, examine state: `terraform state pull | jq . | less`
+#
+# a. aws_db_instance.mysql.instances[0].attributes.password (null)
+# b. aws_db_instance.mysql.instances[0].attributes.password_wo (null)
+# c. aws_db_instance.mysql.instances[0].attributes.password_wo_version (1)
+#
+# No password stored in state!
+# Only the `password_wo_version` which will update password again when different
+
+
+# EPHEMERAL WILL ONLY WORK ON _wo fields
+
+ephemeral "aws_secretsmanager_secret_version" "db_password" {
+  secret_id = data.aws_secretsmanager_secret.db_password.arn
+}
+
+locals {
+  db_password = ephemeral.aws_secretsmanager_secret_version.db_password.secret_string
+}
+
+variable "db_name" {
+  description = "database name (will *always* be stored in state; unavoidable as there is no _wo)"
+  type        = string
+  default     = "demo"
+  sensitive   = true #  Still stored in state
+}
+
+variable "username" {
+  description = "username (will *always* be stored in state; unavoidable as there is no _wo)"
+  type        = string
+  default     = "myuser"
+  sensitive   = true #  Still stored in state
+}
+
+resource "aws_db_instance" "mysql" {
+  engine              = "mysql"
+  engine_version      = "8.0"
+  instance_class      = "db.t3.micro"
+  allocated_storage   = 20
+  db_name             = var.db_name
+  username            = var.username
+  password_wo         = local.db_password
+  password_wo_version = 1 # If value changes, assume password has changed (can't compare with state)
+  skip_final_snapshot = true
+}
