@@ -6,9 +6,9 @@ populate their values via the CLI - keeping secrets out of source control.
 ## What it does
 
 - Creates two secret containers in AWS Secrets Manager:
-  - `learning/app/api_key` — a plain string secret (e.g. an API key)
-  - `learning/app/db_credentials` — a JSON blob secret (e.g. database connection details)
-- Outputs the ARN and name of each secret
+  - `demo/app/api_key` — a plain string secret (e.g. an API key)
+  - `demo/app/db_credentials` — a JSON blob secret (e.g. database connection details)
+- Outputs the ARN of each secret
 
 Values are not set by Terraform. After `terraform apply`, populate them via the CLI
 as shown below.
@@ -31,7 +31,7 @@ terraform apply
 
 ```bash
 aws secretsmanager put-secret-value \
-  --secret-id learning/app/api_key \
+  --secret-id demo/app/api_key \
   --secret-string "your-actual-api-key"
 ```
 
@@ -52,7 +52,7 @@ Contents:
 
 ```bash
 aws secretsmanager put-secret-value \
-  --secret-id learning/app/db_credentials \
+  --secret-id demo/app/db_credentials \
   --secret-string file://tmp_file.json
 ```
 
@@ -61,13 +61,13 @@ aws secretsmanager put-secret-value \
 ```bash
 # Plain string
 aws secretsmanager get-secret-value \
-  --secret-id learning/app/api_key \
+  --secret-id demo/app/api_key \
   --query SecretString \
   --output text
 
 # JSON blob (pipe through jq to pretty-print)
 aws secretsmanager get-secret-value \
-  --secret-id learning/app/db_credentials \
+  --secret-id demo/app/db_credentials \
   --query SecretString \
   --output text | jq .
 ```
@@ -86,9 +86,7 @@ rather than entering the default 30-day recovery window.
 | Output                | Description                       |
 | --------------------- | --------------------------------- |
 | `api_key_arn`         | ARN of the api_key secret         |
-| `api_key_name`        | Name of the api_key secret        |
 | `db_credentials_arn`  | ARN of the db_credentials secret  |
-| `db_credentials_name` | Name of the db_credentials secret |
 
 ## Cost
 
