@@ -1,7 +1,8 @@
 # Secrets Manager Example
 
-Demonstrates how to safely use AWS Secrets Manager with Terraform across three
-phases - ensuring secrets are never written to state or local files.
+Demonstrates how to use AWS Secrets Manager with Terraform across three phases —
+showing both unsafe patterns and the safer alternatives that avoid writing secrets
+to state or local files.
 
 ## Why three phases?
 
@@ -14,7 +15,7 @@ boundary:
 
 1. **Terraform creates the containers** - empty secret slots in AWS Secrets Manager.
 2. **A human populates the values** - directly via the AWS CLI or
-   console, never touching the local filesystem or Terraform state.
+   console, never touching Terraform state.
 3. **Terraform creates the consuming resources** - a progression of demos explores
    the right and wrong ways to consume secrets, arriving at the pattern where the
    value never enters Terraform state.
