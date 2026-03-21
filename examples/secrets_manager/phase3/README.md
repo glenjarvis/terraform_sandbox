@@ -88,7 +88,7 @@ problem rather than managing it.
 
 - Phase 1 applied (`demo/app/db_credentials` and `demo/app/db_password` exist)
 - Phase 2 complete (both secrets populated)
-- Terraform >= 1.10 (required for `ephemeral` resources and `_wo` attributes)
+- Terraform >= 1.14 (required for `ephemeral` resources and `_wo` attributes)
 - AWS CLI with credentials configured
 
 ## Usage
