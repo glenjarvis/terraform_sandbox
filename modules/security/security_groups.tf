@@ -6,7 +6,7 @@ locals {
   protocols = {
     tcp = "tcp"
     udp = "udp"
-    any = -1
+    any = "-1"
   }
 
   ports = {
@@ -33,8 +33,8 @@ resource "aws_security_group" "node_access" {
   })
 }
 
-resource "aws_security_group_rule" "allow_ssh_ingres" {
-  description       = "Allow incomming ssh"
+resource "aws_security_group_rule" "allow_ssh_ingress" {
+  description       = "Allow incoming SSH"
   security_group_id = aws_security_group.node_access.id
   type              = local.types.ingress
   cidr_blocks       = var.allowed_ssh_cidr_blocks
