@@ -1,6 +1,6 @@
 # Terraform Sandbox
 
-Personal sandbox for exploring Terraform across a range of scenarios.
+Personal sandbox for exploring and experimenting with Terraform across multiple cloud providers.
 
 I often use this repo:
 - As a sandbox to run little experiments when testing Terraform
@@ -8,44 +8,74 @@ I often use this repo:
 
 Not intended for production use.
 
-## Examples
+---
 
-- [`bootstrap/`](bootstrap/)                       — S3 backend setup; run first for examples that use remote state
-- [`cross_account/`](examples/cross_account/)      — Assume a role in another AWS account without separate credentials
-- [`db_multizone/`](examples/db_multizone/)        — MySQL RDS with cross-region read replica
-- [`ec2_profiles/`](examples/ec2_profiles/)        — EC2 with IAM instance profile *(uses remote state)*
-- [`github_to_aws/`](examples/github_to_aws/)      — GitHub Actions → AWS authentication via OIDC (no stored credentials)
-- [`k8s_cheddar/`](examples/k8s_cheddar/)          — Kubernetes deployment (cheese-themed image)
-- [`k8s_eks_wensleydale/`](examples/k8s_eks_wensleydale/) — EKS cluster with Kubernetes deployment (multiple-provider; cheese-themed image)
-- [`multi_regions/`](examples/multi_regions/)      — Multi-region provider configuration
+## AWS
 
-## Modules
+### Bootstrap
 
-- [`data_stores/mysql/`](modules/data_stores/mysql/) — Reusable RDS MySQL module with Replication
-- [`k8s_app/`](modules/k8s_app/)                     — Kubernetes Deployment and Service
-- [`security/`](modules/security/)                   — Security groups
-- [`services/eks-cluster/`](modules/services/eks-cluster/) — EKS cluster with networking and IAM
-- [`vpcs/`](modules/vpcs/)                           — VPC with subnets and internet gateway
+- [`aws/bootstrap/`](aws/bootstrap/) — S3 backend setup; run first for AWS examples that use remote state
+
+### Examples
+
+- [`cross_account/`](aws/examples/cross_account/)           — Assume a role in another AWS account without separate credentials
+- [`db_multizone/`](aws/examples/db_multizone/)             — MySQL RDS with cross-region read replica
+- [`ec2_profiles/`](aws/examples/ec2_profiles/)             — EC2 with IAM instance profile *(uses remote state)*
+- [`github_to_aws/`](aws/examples/github_to_aws/)           — GitHub Actions → AWS authentication via OIDC (no stored credentials)
+- [`k8s_cheddar/`](aws/examples/k8s_cheddar/)               — Kubernetes deployment on Docker Desktop (cloud-agnostic)
+- [`k8s_eks_wensleydale/`](aws/examples/k8s_eks_wensleydale/) — EKS cluster with Kubernetes deployment (cheese-themed image)
+- [`multi_regions/`](aws/examples/multi_regions/)           — Multi-region provider configuration
+- [`secrets_manager/`](aws/examples/secrets_manager/)       — AWS Secrets Manager walkthrough (3-phase)
+
+### Modules
+
+- [`data_stores/mysql/`](aws/modules/data_stores/mysql/) — Reusable RDS MySQL module with replication
+- [`k8s_app/`](aws/modules/k8s_app/)                     — Kubernetes Deployment and Service
+- [`security/`](aws/modules/security/)                   — Security groups and rules
+- [`services/eks-cluster/`](aws/modules/services/eks-cluster/) — EKS cluster with networking and IAM
+- [`vpcs/`](aws/modules/vpcs/)                           — VPC with subnets and internet gateway
+
+---
+
+## GCP
+
+### Bootstrap
+
+- [`gcp/bootstrap/`](gcp/bootstrap/) — GCS bucket for Terraform remote state; run first for GCP examples that use remote state
+
+---
+
+## Azure
+
+*(Coming soon)*
+
+---
 
 ## Prerequisites
 
 - Terraform >= 1.14
-- AWS CLI with credentials configured
+- **AWS examples**: AWS CLI with credentials configured
+- **GCP examples**: `gcloud` CLI authenticated (`gcloud auth application-default login`)
 - `kubectl` (EKS examples only)
 
 ## Getting Started
 
-### Examples that use remote state
+### AWS examples that use remote state
 
-`ec2_profiles` stores Terraform state in S3. Run `bootstrap/` first — see its
-[README](bootstrap/README.md) for setup instructions. Then follow the example's own README.
+`ec2_profiles` and `github_to_aws` store Terraform state in S3. Run `aws/bootstrap/` first —
+see its [README](aws/bootstrap/README.md) for setup instructions. Then follow the example's own README.
+
+### GCP bootstrap
+
+Run `gcp/bootstrap/` first to create the GCS state bucket before any GCP examples that use
+remote state. See its [README](gcp/bootstrap/README.md) for setup instructions.
 
 ### Examples with local state
 
 All other examples use local state:
 
 ```bash
-cd examples/<name>
+cd aws/examples/<name>
 terraform init
 terraform apply
 ```

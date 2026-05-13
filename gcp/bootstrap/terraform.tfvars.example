@@ -1,0 +1,13 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is ignored by git and will not be committed.
+
+# Your GCP project ID (not the display name).
+# Find it in the GCP Console or run: gcloud projects list
+project_id = "your-project-id"
+
+# GCP region for the state bucket.
+region = "us-central1"
+
+# Unique prefix for the GCS bucket name — reverse-domain style recommended.
+# Example: "com-glenjarvis-sandbox"
+unique_prefix = "your-prefix-here"
