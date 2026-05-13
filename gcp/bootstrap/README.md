@@ -3,7 +3,7 @@
 Creates a GCS bucket for storing Terraform remote state. Run this first before any GCP
 examples that use a remote backend.
 
-Mirrors the pattern established in [`aws/bootstrap/`](../aws/bootstrap/).
+Mirrors the pattern established in [`aws/bootstrap/`](../../aws/bootstrap/).
 
 ## Prerequisites
 
