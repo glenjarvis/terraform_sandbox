@@ -22,6 +22,7 @@ Not intended for production use.
 - [`db_multizone/`](aws/examples/db_multizone/)             — MySQL RDS with cross-region read replica
 - [`ec2_profiles/`](aws/examples/ec2_profiles/)             — EC2 with IAM instance profile *(uses remote state)*
 - [`github_to_aws/`](aws/examples/github_to_aws/)           — GitHub Actions → AWS authentication via OIDC (no stored credentials)
+- [`hello_lambda/`](aws/examples/hello_lambda/)             — Minimal Python Lambda, packaged and invoked from the CLI
 - [`k8s_cheddar/`](aws/examples/k8s_cheddar/)               — Kubernetes deployment on Docker Desktop (cloud-agnostic)
 - [`k8s_eks_wensleydale/`](aws/examples/k8s_eks_wensleydale/) — EKS cluster with Kubernetes deployment (cheese-themed image)
 - [`multi_regions/`](aws/examples/multi_regions/)           — Multi-region provider configuration
