@@ -38,6 +38,16 @@ that imports fine locally and fails inside Lambda. Hence:
 --python-platform x86_64-manylinux2014 --python-version 3.13 --only-binary=:all:
 ```
 
+`build_layer.sh` uses uv. pip can do the same thing, but its interface differs — different
+flag name *and* a different value format, so these are not interchangeable spellings:
+
+| Tool | Flag | Value | Format |
+|------|------|-------|--------|
+| uv   | `--python-platform` | `x86_64-manylinux2014` | target triple |
+| pip  | `--platform`        | `manylinux2014_x86_64` | wheel platform tag |
+
+Both select the same wheels and produce an identical payload.
+
 Verify it worked by checking the extension's architecture:
 
 ```bash
@@ -55,8 +65,8 @@ needs nor disturbs a virtualenv.
 
 - AWS CLI with credentials configured
 - Terraform >= 1.14
-- [`uv`](https://docs.astral.sh/uv/) (swap in `python3 -m pip` with pip's flag spellings if you
-  prefer: `--platform manylinux2014_x86_64`)
+- [`uv`](https://docs.astral.sh/uv/) — or swap in `python3 -m pip`, adjusting the flags as shown
+  in the table above
 
 ## Setup
 
