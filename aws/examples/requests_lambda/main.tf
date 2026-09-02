@@ -20,6 +20,11 @@ provider "aws" {
 
 locals {
   function_name = "check_ip"
+
+  # Declared once and used for both the function and the layer lookup, so
+  # the two cannot drift apart.
+  runtime      = "python3.13"
+  architecture = "x86_64"
 }
 
 # The deployment package holds check_ip.py and nothing else. `requests`
@@ -30,13 +35,21 @@ data "archive_file" "check_ip" {
   output_path = "${path.module}/dist/check_ip.zip"
 }
 
-# Look the layer up by name and take whatever version is current, rather
-# than hardcoding a version ARN that goes stale on the next publish.
+# Look the layer up by name and take the current version, rather than
+# hardcoding a version ARN that goes stale on the next publish.
 #
-# This fails if no layer named "requests" exists in the region. That is the
-# correct outcome: this example consumes a layer it does not own.
+# The compatibility filters matter: unfiltered, this resolves the newest
+# version of the layer whether or not it fits. Publish a python3.12 build as
+# :2 and the attach would fail with an error pointing at the function rather
+# than at the lookup that picked wrong. Filtered, an unsatisfiable
+# combination fails here instead, which is where the problem actually is.
+#
+# This also fails if no layer named "requests" exists in the region. That is
+# the correct outcome: this example consumes a layer it does not own.
 data "aws_lambda_layer_version" "requests" {
-  layer_name = "requests"
+  layer_name              = "requests"
+  compatible_runtime      = local.runtime
+  compatible_architecture = local.architecture
 }
 
 data "aws_iam_policy_document" "assume_role" {
@@ -73,9 +86,9 @@ resource "aws_lambda_function" "check_ip" {
   filename         = data.archive_file.check_ip.output_path
   source_code_hash = data.archive_file.check_ip.output_base64sha256
 
-  runtime       = "python3.13"
+  runtime       = local.runtime
   handler       = "check_ip.handler"
-  architectures = ["x86_64"]
+  architectures = [local.architecture]
 
   # A versioned layer ARN. The layer must match the runtime and architecture
   # declared above, or the attach is rejected.
