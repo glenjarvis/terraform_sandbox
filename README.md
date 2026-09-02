@@ -26,6 +26,8 @@ Not intended for production use.
 - [`k8s_cheddar/`](aws/examples/k8s_cheddar/)               — Kubernetes deployment on Docker Desktop (cloud-agnostic)
 - [`k8s_eks_wensleydale/`](aws/examples/k8s_eks_wensleydale/) — EKS cluster with Kubernetes deployment (cheese-themed image)
 - [`multi_regions/`](aws/examples/multi_regions/)           — Multi-region provider configuration
+- [`requests_lambda/`](aws/examples/requests_lambda/)       — Lambda importing `requests` from a layer instead of bundling it
+- [`requests_layer/`](aws/examples/requests_layer/)         — Builds and publishes a Lambda layer containing `requests`
 - [`secrets_manager/`](aws/examples/secrets_manager/)       — AWS Secrets Manager walkthrough (3-phase)
 
 ### Modules
