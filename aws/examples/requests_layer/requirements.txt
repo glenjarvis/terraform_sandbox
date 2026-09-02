@@ -1,0 +1,6 @@
+# The layer's contract: exactly what lands in /opt/python inside Lambda.
+#
+# Pinned so a function's local environment can be made identical to the
+# layer by installing this same file. Unpinned, local and deployed drift
+# apart silently and the difference only shows up after deploy.
+requests==2.34.2
